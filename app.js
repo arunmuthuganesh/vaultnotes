@@ -1,5 +1,5 @@
 'use strict';
-const VERSION = '1.0.3'; // bump on every release (also bump CACHE in sw.js)
+const VERSION = '1.0.4'; // bump on every release (also bump ?v= in index.html and CACHE in sw.js)
 /* VaultNotes – markdown notes with [[wiki links]], backlinks, offline storage and OneDrive/Dropbox sync. */
 const $ = s => document.querySelector(s);
 const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } };
@@ -464,6 +464,6 @@ $('#s-ver').textContent = 'Version ' + VERSION;
   await finishAuth();
   setStatus(tok() && provider() ? 'Connected' : 'Local only');
   scheduleSync(500);
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js?v='+VERSION).catch(() => {});
 })();
 window.addEventListener('pagehide', () => lsSet('last', current));

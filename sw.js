@@ -1,5 +1,5 @@
-﻿const CACHE = 'vaultnotes-v1.0.3';
-const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'manifest.json', 'icon-192.png', 'icon-512.png',
+﻿const CACHE = 'vaultnotes-v1.0.4';
+const SHELL = ['./', 'index.html', 'style.css?v=1.0.4', 'app.js?v=1.0.4', 'manifest.json', 'icon-192.png', 'icon-512.png',
   'https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => Promise.allSettled(SHELL.map(u => c.add(u)))).then(() => self.skipWaiting())); });
