@@ -274,7 +274,7 @@ const OneDrive = {
   full: p => join(trim(cfg().root), p),
   async list() {
     const root = trim(cfg().root), out = [], G = 'https://graph.microsoft.com/v1.0/me/drive/';
-    const sel = '$top=200&$select=name,eTag,folder,file,@microsoft.graph.downloadUrl';
+    const sel = '$top=200&$select=id,name,eTag,folder,file';
     const walk = async rel => {
       const p = join(root, rel);
       let url = G + (p ? `root:/${encPath(p)}:/children?` : 'root/children?') + sel;
@@ -287,8 +287,12 @@ const OneDrive = {
           const rp = join(rel, it.name);
           if (it.folder) await walk(rp);
           else if (/\.md$/i.test(it.name)) {
-            const dl = it['@microsoft.graph.downloadUrl'];
-            out.push({ path: rp, rev: it.eTag, read: async () => (await fetch(dl)).text() });
+            const id = it.id;
+            out.push({ path: rp, rev: it.eTag, read: async () => {
+              const r = await fetch(`https://graph.microsoft.com/v1.0/me/drive/items/${id}/content`, { headers: { Authorization: 'Bearer ' + await accessToken() } });
+              if (!r.ok) throw new Error('OneDrive download failed ' + r.status);
+              return r.text();
+            } });
           }
         }
         url = j['@odata.nextLink'];
@@ -444,6 +448,10 @@ $('#s-export').onclick = () => {
 /* ---------- boot ---------- */
 (async function boot() {
   await loadAll();
+  if (!lsGet('fixV2', false)) {
+    for (const n of notes.values()) if (n.rev && !n.dirty && /<title>Page not found/i.test(n.content)) { n.rev = null; await dbPut(n); }
+    lsSet('fixV2', true);
+  }
   if (!notes.size) {
     await createNote('Welcome', '# Welcome to VaultNotes\n\nMarkdown notes that work offline and sync with OneDrive or Dropbox.\n\n- Link notes with [[Double brackets]] — click them in **Preview**.\n- Use the search box (Ctrl+K) to find text in any note.\n- Open ⚙ to connect your cloud folder.\n');
   } else {
