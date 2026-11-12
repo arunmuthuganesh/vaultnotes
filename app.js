@@ -349,7 +349,7 @@ const Dropbox = {
         'Dropbox-API-Arg': asciiJson({ path: this.full(path), mode: 'overwrite', mute: true }) },
       body: text,
     });
-    if (!r.ok) throw new Error('Dropbox upload failed ' + r.status + ' ' + (await r.text()).slice(0, 120));
+    if (!r.ok) throw new Error('Dropbox upload failed ' + r.status + ' ' + (await r.text()).slice(0, 800));
     return (await r.json()).rev;
   },
   async remove(path) { try { await this.rpc('files/delete_v2', { path: this.full(path) }); } catch (e) { if (!e.notFound) throw e; } },
@@ -358,7 +358,9 @@ const provider = () => ({ onedrive: OneDrive, dropbox: Dropbox }[cfg().provider]
 
 /* ---------- sync ---------- */
 let syncing = false, again = false;
+let lastError = '';
 function setStatus(s) { $('#status').textContent = s; }
+$('#status').addEventListener('click', () => { if (lastError) prompt('Sync error details (copy this):', lastError); });
 function scheduleSync(ms = 4000) {
   if (!provider() || !tok()) return;
   clearTimeout(syncTimer); syncTimer = setTimeout(sync, ms);
@@ -408,7 +410,7 @@ async function sync() {
     }
     setStatus(`${PROVIDERS[cfg().provider].name}: synced ${new Date().toLocaleTimeString()}`);
   } catch (e) {
-    console.error(e); setStatus('Sync error: ' + e.message);
+    console.error(e); lastError = e.message; setStatus('Sync error (tap here for details)');
   } finally {
     syncing = false; renderTree(); renderBacklinks();
     if (again) { again = false; scheduleSync(1000); }
