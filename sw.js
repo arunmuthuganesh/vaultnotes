@@ -1,4 +1,4 @@
-﻿const CACHE = 'vaultnotes-v1';
+﻿const CACHE = 'vaultnotes-v1.0.3';
 const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'manifest.json', 'icon-192.png', 'icon-512.png',
   'https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js'];

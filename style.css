@@ -54,3 +54,5 @@ dialog input,dialog select{display:block;width:100%;margin-top:4px;padding:7px 9
   body.menu #scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:10}
   #btn-menu{display:block}
 }
+
+.ver{padding:0 12px 8px;font-size:11px;color:var(--muted)}

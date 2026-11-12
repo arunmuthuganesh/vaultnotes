@@ -1,4 +1,5 @@
 'use strict';
+const VERSION = '1.0.3'; // bump on every release (also bump CACHE in sw.js)
 /* VaultNotes – markdown notes with [[wiki links]], backlinks, offline storage and OneDrive/Dropbox sync. */
 const $ = s => document.querySelector(s);
 const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } };
@@ -446,6 +447,8 @@ $('#s-export').onclick = () => {
 };
 
 /* ---------- boot ---------- */
+$('#ver').textContent = 'v' + VERSION;
+$('#s-ver').textContent = 'Version ' + VERSION;
 (async function boot() {
   await loadAll();
   if (!lsGet('fixV2', false)) {
