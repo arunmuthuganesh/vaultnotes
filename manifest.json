@@ -1,0 +1,14 @@
+﻿{
+  "name": "VaultNotes",
+  "short_name": "VaultNotes",
+  "description": "Markdown notes with wiki links, synced with OneDrive or Dropbox",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1e1e24",
+  "theme_color": "#7c3aed",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

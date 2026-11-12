@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VaultNotes</title>
+<meta name="theme-color" content="#7c3aed">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar">
+    <div class="side-head">
+      <input id="search" type="search" placeholder="Search notes…" autocomplete="off">
+      <button id="btn-new" title="New note">＋</button>
+      <button id="btn-settings" title="Settings &amp; sync">⚙</button>
+    </div>
+    <div id="tree"></div>
+    <div id="status">Local only</div>
+  </aside>
+  <div id="scrim"></div>
+  <main id="main">
+    <header class="top">
+      <button id="btn-menu" title="Notes">☰</button>
+      <div id="title">No note open</div>
+      <button id="btn-mode" title="Toggle edit / preview">Preview</button>
+      <button id="btn-rename" title="Rename / move">✎</button>
+      <button id="btn-delete" title="Delete">🗑</button>
+    </header>
+    <div id="editor-wrap">
+      <textarea id="editor" spellcheck="true" placeholder="Create or open a note to start writing…" disabled></textarea>
+      <div id="preview" class="hidden"></div>
+    </div>
+    <section id="backlinks" class="hidden"></section>
+  </main>
+</div>
+
+<dialog id="settings">
+  <form method="dialog" id="settings-form">
+    <h2>Sync settings</h2>
+    <label>Provider
+      <select id="s-provider">
+        <option value="none">None (local only)</option>
+        <option value="onedrive">OneDrive</option>
+        <option value="dropbox">Dropbox</option>
+      </select>
+    </label>
+    <label>Client / App ID
+      <input id="s-client" placeholder="Application (client) ID or Dropbox app key">
+    </label>
+    <label>Vault folder in the cloud
+      <input id="s-root" placeholder="Obsidian/Vault (OneDrive) — leave empty for a Dropbox app folder">
+    </label>
+    <p class="hint">Redirect URI to register: <code id="s-redirect"></code></p>
+    <p id="s-conn" class="hint"></p>
+    <div class="row">
+      <button type="button" id="s-connect">Save &amp; connect</button>
+      <button type="button" id="s-sync">Sync now</button>
+      <button type="button" id="s-disconnect">Disconnect</button>
+    </div>
+    <div class="row">
+      <button type="button" id="s-export">Export all (.json)</button>
+      <button value="close" class="primary">Close</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
